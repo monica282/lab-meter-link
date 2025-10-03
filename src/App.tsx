@@ -7,6 +7,10 @@ import { AuthProvider } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Projects from "./pages/Projects";
+import Instruments from "./pages/Instruments";
+import Quality from "./pages/Quality";
+import TDP from "./pages/TDP";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +29,38 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Index />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                <ProtectedRoute>
+                  <Projects />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instruments"
+              element={
+                <ProtectedRoute>
+                  <Instruments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/quality"
+              element={
+                <ProtectedRoute>
+                  <Quality />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tdp"
+              element={
+                <ProtectedRoute>
+                  <TDP />
                 </ProtectedRoute>
               }
             />
