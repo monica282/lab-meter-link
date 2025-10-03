@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Gauge, Calendar, AlertTriangle } from 'lucide-react';
 import Layout from '@/components/Layout';
@@ -36,12 +37,13 @@ const Instruments = () => {
 
   const createInstrumentMutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const data = {
+      const data: any = {
         name: formData.get('name') as string,
         manufacturer: formData.get('manufacturer') as string,
         model: formData.get('model') as string,
         serial_number: formData.get('serial_number') as string,
         category: formData.get('category') as string,
+        metrology_area: formData.get('metrology_area') as string,
         location: formData.get('location') as string,
         calibration_frequency_months: parseInt(formData.get('calibration_frequency_months') as string),
         last_calibration_date: formData.get('last_calibration_date') as string || null,
@@ -136,20 +138,34 @@ const Instruments = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
+                      <Label htmlFor="metrology_area">Área Metrológica *</Label>
+                      <Select name="metrology_area" defaultValue="fisica" required>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="fisica">Metrologia Física</SelectItem>
+                          <SelectItem value="quimica">Metrologia Química</SelectItem>
+                          <SelectItem value="biologica">Metrologia Biológica</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
                       <Label htmlFor="location">Localização</Label>
                       <Input id="location" name="location" placeholder="Ex: Sala 101" />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="calibration_frequency_months">Frequência de Calibração (meses) *</Label>
-                      <Input 
-                        id="calibration_frequency_months" 
-                        name="calibration_frequency_months" 
-                        type="number" 
-                        min="1"
-                        defaultValue="12"
-                        required 
-                      />
-                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="calibration_frequency_months">Frequência de Calibração (meses) *</Label>
+                    <Input 
+                      id="calibration_frequency_months" 
+                      name="calibration_frequency_months" 
+                      type="number" 
+                      min="1"
+                      defaultValue="12"
+                      required 
+                    />
                   </div>
 
                   <div className="space-y-2">
@@ -223,6 +239,16 @@ const Instruments = () => {
                     <div className="flex items-center gap-2 text-sm">
                       <Gauge className="h-4 w-4 text-muted-foreground" />
                       <span>{instrument.category}</span>
+                      {instrument.metrology_area && (
+                        <>
+                          <span className="text-muted-foreground">•</span>
+                          <Badge variant="outline" className="text-xs">
+                            {instrument.metrology_area === 'fisica' && 'Física'}
+                            {instrument.metrology_area === 'quimica' && 'Química'}
+                            {instrument.metrology_area === 'biologica' && 'Biológica'}
+                          </Badge>
+                        </>
+                      )}
                     </div>
                     {instrument.serial_number && (
                       <div className="text-sm text-muted-foreground">

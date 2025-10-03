@@ -76,6 +76,7 @@ export type Database = {
           last_calibration_date: string | null
           location: string | null
           manufacturer: string | null
+          metrology_area: Database["public"]["Enums"]["metrology_area"]
           model: string | null
           name: string
           next_calibration_date: string | null
@@ -92,6 +93,7 @@ export type Database = {
           last_calibration_date?: string | null
           location?: string | null
           manufacturer?: string | null
+          metrology_area?: Database["public"]["Enums"]["metrology_area"]
           model?: string | null
           name: string
           next_calibration_date?: string | null
@@ -108,6 +110,7 @@ export type Database = {
           last_calibration_date?: string | null
           location?: string | null
           manufacturer?: string | null
+          metrology_area?: Database["public"]["Enums"]["metrology_area"]
           model?: string | null
           name?: string
           next_calibration_date?: string | null
@@ -117,6 +120,194 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      non_conformities: {
+        Row: {
+          batch_id: string | null
+          closed_by: string | null
+          closed_date: string | null
+          corrective_action: string | null
+          created_at: string
+          description: string
+          detected_by: string | null
+          detected_date: string
+          id: string
+          project_id: string | null
+          root_cause: string | null
+          severity: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          batch_id?: string | null
+          closed_by?: string | null
+          closed_date?: string | null
+          corrective_action?: string | null
+          created_at?: string
+          description: string
+          detected_by?: string | null
+          detected_date?: string
+          id?: string
+          project_id?: string | null
+          root_cause?: string | null
+          severity: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          batch_id?: string | null
+          closed_by?: string | null
+          closed_date?: string | null
+          corrective_action?: string | null
+          created_at?: string
+          description?: string
+          detected_by?: string | null
+          detected_date?: string
+          id?: string
+          project_id?: string | null
+          root_cause?: string | null
+          severity?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "non_conformities_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "non_conformities_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      process_control: {
+        Row: {
+          batch_id: string
+          created_at: string
+          id: string
+          in_control: boolean
+          instrument_id: string | null
+          lower_control_limit: number | null
+          measured_value: number
+          measurement_date: string
+          measurement_parameter: string
+          notes: string | null
+          operator_id: string | null
+          target_value: number
+          unit: string
+          upper_control_limit: number | null
+        }
+        Insert: {
+          batch_id: string
+          created_at?: string
+          id?: string
+          in_control?: boolean
+          instrument_id?: string | null
+          lower_control_limit?: number | null
+          measured_value: number
+          measurement_date?: string
+          measurement_parameter: string
+          notes?: string | null
+          operator_id?: string | null
+          target_value: number
+          unit: string
+          upper_control_limit?: number | null
+        }
+        Update: {
+          batch_id?: string
+          created_at?: string
+          id?: string
+          in_control?: boolean
+          instrument_id?: string | null
+          lower_control_limit?: number | null
+          measured_value?: number
+          measurement_date?: string
+          measurement_parameter?: string
+          notes?: string | null
+          operator_id?: string | null
+          target_value?: number
+          unit?: string
+          upper_control_limit?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "process_control_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "production_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "process_control_instrument_id_fkey"
+            columns: ["instrument_id"]
+            isOneToOne: false
+            referencedRelation: "instruments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_batches: {
+        Row: {
+          batch_number: string
+          created_at: string
+          id: string
+          notes: string | null
+          production_date: string
+          production_stage: Database["public"]["Enums"]["production_stage"]
+          project_id: string
+          quantity: number
+          responsible_user_id: string | null
+          status: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          batch_number: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          production_date: string
+          production_stage?: Database["public"]["Enums"]["production_stage"]
+          project_id: string
+          quantity: number
+          responsible_user_id?: string | null
+          status?: string
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          batch_number?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          production_date?: string
+          production_stage?: Database["public"]["Enums"]["production_stage"]
+          project_id?: string
+          quantity?: number
+          responsible_user_id?: string | null
+          status?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_batches_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -151,6 +342,9 @@ export type Database = {
           expected_end_date: string | null
           id: string
           name: string
+          production_stage:
+            | Database["public"]["Enums"]["production_stage"]
+            | null
           responsible_user_id: string | null
           start_date: string
           status: Database["public"]["Enums"]["project_status"]
@@ -165,6 +359,9 @@ export type Database = {
           expected_end_date?: string | null
           id?: string
           name: string
+          production_stage?:
+            | Database["public"]["Enums"]["production_stage"]
+            | null
           responsible_user_id?: string | null
           start_date: string
           status?: Database["public"]["Enums"]["project_status"]
@@ -179,6 +376,9 @@ export type Database = {
           expected_end_date?: string | null
           id?: string
           name?: string
+          production_stage?:
+            | Database["public"]["Enums"]["production_stage"]
+            | null
           responsible_user_id?: string | null
           start_date?: string
           status?: Database["public"]["Enums"]["project_status"]
@@ -239,6 +439,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      reference_standards: {
+        Row: {
+          certificate_number: string | null
+          created_at: string
+          id: string
+          manufacturer: string | null
+          metrology_area: Database["public"]["Enums"]["metrology_area"]
+          name: string
+          notes: string | null
+          standard_type: string
+          status: string
+          storage_conditions: string | null
+          uncertainty_unit: string | null
+          uncertainty_value: number | null
+          updated_at: string
+          validity_date: string | null
+        }
+        Insert: {
+          certificate_number?: string | null
+          created_at?: string
+          id?: string
+          manufacturer?: string | null
+          metrology_area: Database["public"]["Enums"]["metrology_area"]
+          name: string
+          notes?: string | null
+          standard_type: string
+          status?: string
+          storage_conditions?: string | null
+          uncertainty_unit?: string | null
+          uncertainty_value?: number | null
+          updated_at?: string
+          validity_date?: string | null
+        }
+        Update: {
+          certificate_number?: string | null
+          created_at?: string
+          id?: string
+          manufacturer?: string | null
+          metrology_area?: Database["public"]["Enums"]["metrology_area"]
+          name?: string
+          notes?: string | null
+          standard_type?: string
+          status?: string
+          storage_conditions?: string | null
+          uncertainty_unit?: string | null
+          uncertainty_value?: number | null
+          updated_at?: string
+          validity_date?: string | null
+        }
+        Relationships: []
       }
       tdp_documents: {
         Row: {
@@ -376,6 +627,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "tecnico" | "usuario"
+      metrology_area: "quimica" | "fisica" | "biologica"
+      production_stage: "desenvolvimento" | "piloto" | "escala_industrial"
       project_status:
         | "planejamento"
         | "em_andamento"
@@ -520,6 +773,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "tecnico", "usuario"],
+      metrology_area: ["quimica", "fisica", "biologica"],
+      production_stage: ["desenvolvimento", "piloto", "escala_industrial"],
       project_status: [
         "planejamento",
         "em_andamento",

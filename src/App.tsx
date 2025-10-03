@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Projects from "./pages/Projects";
 import Instruments from "./pages/Instruments";
+import Production from "./pages/Production";
 import Quality from "./pages/Quality";
 import TDP from "./pages/TDP";
 import NotFound from "./pages/NotFound";
@@ -39,16 +40,24 @@ const App = () => (
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/instruments"
-            element={
-              <ProtectedRoute>
-                <Instruments />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/quality"
+            <Route
+              path="/instruments"
+              element={
+                <ProtectedRoute>
+                  <Instruments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/production"
+              element={
+                <ProtectedRoute>
+                  <Production />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/quality"
             element={
               <ProtectedRoute>
                 <Quality />

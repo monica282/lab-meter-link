@@ -9,7 +9,8 @@ import {
   Gauge, 
   BarChart3, 
   FileText,
-  LogOut 
+  LogOut,
+  Package
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -41,6 +42,7 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/projects', icon: FolderKanban, label: 'Projetos TRL' },
     { path: '/instruments', icon: Gauge, label: 'Instrumentos' },
+    { path: '/production', icon: Package, label: 'Produção' },
     { path: '/quality', icon: BarChart3, label: 'Qualidade' },
     { path: '/tdp', icon: FileText, label: 'TDP' },
   ];
